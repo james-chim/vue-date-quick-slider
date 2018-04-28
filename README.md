@@ -1,6 +1,6 @@
-# date-quick-slider
+# vue-date-quick-slider
 
-> Date slider library that is built for https://timehunter.io . It aims to provide an easy and user friendly date filter that can navigate back and forth by a simple click of a button. It is responsive and built with moment.
+> Vue date slider library that is built for https://timehunter.io . It aims to provide an easy and user friendly date filter that can navigate back and forth by a simple click of a button. It is responsive and built with moment.
 
 ## Build Setup
 
