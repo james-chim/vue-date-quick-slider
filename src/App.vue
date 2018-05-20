@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <day-slider :start-date.sync="start" :end-date.sync="end"></day-slider>
+    <day-slider :start-date.sync="start" :end-date.sync="end" range-type="week"></day-slider>
   </div>
 </template>
 

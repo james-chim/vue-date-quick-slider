@@ -1,8 +1,12 @@
 <template>
   <div>
-    <back-svg class="slider-control"></back-svg>
+    <div @click="previousRange()">
+      <back-svg class="slider-control"></back-svg>
+    </div>
     <div class="slider-date">{{startDate}} - {{endDate}}</div>
-    <forward-svg class="slider-control"></forward-svg>
+    <div @click="nextRange()">
+      <forward-svg class="slider-control"></forward-svg>
+    </div>
   </div>
 </template>
 
@@ -61,11 +65,17 @@ export default {
     }
   },
   watch: {
-    startDateLocal (newVal) {
-      this.$emit('update:startDate', newVal.toDate())
+    startDateLocal: {
+      handler (newValue) {
+        this.$emit('update:startDate', newValue.toDate())
+      },
+      deep: true
     },
-    endDateLocal (newVal) {
-      this.$emit('update:endDate', newVal.toDate())
+    endDateLocal: {
+      handler (newValue) {
+        this.$emit('update:endDate', newValue.toDate())
+      },
+      deep: true
     }
   },
   created () {
@@ -75,6 +85,20 @@ export default {
     } else {
       this.startDateLocal = moment(this.startDate).startOf('day')
       this.endDateLocal = moment(this.startDate).add(1, this.rangeType).subtract(1, 'day').endOf('day')
+    }
+  },
+  methods: {
+    nextRange () {
+      this.startDateLocal.add(1, this.rangeType)
+      this.endDateLocal.add(1, this.rangeType)
+      this.$set(this.startDateLocal, '__force_update', !this.startDateLocal.__force_update)
+      this.$set(this.endDateLocal, '__force_update', !this.endDateLocal.__force_update)
+    },
+    previousRange () {
+      this.startDateLocal.subtract(1, this.rangeType)
+      this.endDateLocal.subtract(1, this.rangeType)
+      this.$set(this.startDateLocal, '__force_update', !this.startDateLocal.__force_update)
+      this.$set(this.endDateLocal, '__force_update', !this.endDateLocal.__force_update)
     }
   }
 }
