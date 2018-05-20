@@ -1,7 +1,7 @@
 <template>
   <div>
     <back-svg class="slider-control"></back-svg>
-    <div class="slider-date"></div>
+    <div class="slider-date">{{startDate}}</div>
     <forward-svg class="slider-control"></forward-svg>
   </div>
 </template>
@@ -22,8 +22,32 @@ export default {
     return {}
   },
   props: {
+    rangeType: {
+      type: String,
+      default: () => {
+        // changing this also requires you to change the default function of startDate
+        return 'day'
+      },
+      validator: (value) => {
+        // The value must match one of these strings
+        return ['day', 'week', 'month', 'year'].indexOf(value) !== -1
+      }
+    },
+    rangeStartAutoAlign: {
+      type: Boolean,
+      // changing this also requires you to change the default function of startDate
+      default: () => true
+    },
     startDate: {
       default: () => {
+        // checking for undefined since those props are dependent on this generation
+        if (typeof this.rangeStartAutoAlign === 'undefined' || this.rangeStartAutoAlign) {
+          var tempRangeType = this.rangeType
+          if (typeof tempRangeType === 'undefined') {
+            tempRangeType = 'day'
+          }
+          return moment().startOf(tempRangeType)
+        }
         return moment().startOf('day')
       },
       validator: (value) => {
@@ -32,7 +56,7 @@ export default {
     },
     endDate: {
       default: () => {
-        return moment().endOf('day')
+        return moment().endOf(this.rangeType)
       },
       validator: (value) => {
         return moment(value)._isValid
@@ -47,6 +71,11 @@ export default {
       validator: (value) => {
         return moment(value)._isValid
       }
+    }
+  },
+  watch: {
+    startDate (newVal) {
+      console.log(newVal)
     }
   },
   created () {

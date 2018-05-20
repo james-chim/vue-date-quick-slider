@@ -1,6 +1,6 @@
 <template>
   <div id="app">
-    <day-slider :start-date="random"></day-slider>
+    <day-slider :start-date.sync="start" :end-date.sync="end"></day-slider>
   </div>
 </template>
 
@@ -14,7 +14,8 @@ export default {
   },
   data () {
     return {
-      random: new Date()
+      start: undefined,
+      end: new Date(500000)
     }
   }
 }
