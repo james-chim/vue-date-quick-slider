@@ -148,6 +148,7 @@ export default {
       display: inline-block;
       text-align: center;
       align-self: center;
+      user-select: none;
     }
   }
 </style>
