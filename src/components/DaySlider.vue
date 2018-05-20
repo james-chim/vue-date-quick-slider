@@ -1,7 +1,7 @@
 <template>
   <div>
     <back-svg class="slider-control"></back-svg>
-    <div class="slider-date">{{startDate}}</div>
+    <div class="slider-date">{{startDate}} - {{endDate}}</div>
     <forward-svg class="slider-control"></forward-svg>
   </div>
 </template>
@@ -19,13 +19,15 @@ export default {
     forwardSvg
   },
   data () {
-    return {}
+    return {
+      startDateLocal: undefined,
+      endDateLocal: undefined
+    }
   },
   props: {
     rangeType: {
       type: String,
       default: () => {
-        // changing this also requires you to change the default function of startDate
         return 'day'
       },
       validator: (value) => {
@@ -35,29 +37,14 @@ export default {
     },
     rangeStartAutoAlign: {
       type: Boolean,
-      // changing this also requires you to change the default function of startDate
       default: () => true
     },
     startDate: {
-      default: () => {
-        // checking for undefined since those props are dependent on this generation
-        if (typeof this.rangeStartAutoAlign === 'undefined' || this.rangeStartAutoAlign) {
-          var tempRangeType = this.rangeType
-          if (typeof tempRangeType === 'undefined') {
-            tempRangeType = 'day'
-          }
-          return moment().startOf(tempRangeType)
-        }
-        return moment().startOf('day')
-      },
       validator: (value) => {
         return moment(value)._isValid
       }
     },
     endDate: {
-      default: () => {
-        return moment().endOf(this.rangeType)
-      },
       validator: (value) => {
         return moment(value)._isValid
       }
@@ -74,11 +61,21 @@ export default {
     }
   },
   watch: {
-    startDate (newVal) {
-      console.log(newVal)
+    startDateLocal (newVal) {
+      this.$emit('update:startDate', newVal.toDate())
+    },
+    endDateLocal (newVal) {
+      this.$emit('update:endDate', newVal.toDate())
     }
   },
   created () {
+    if (this.rangeStartAutoAlign) {
+      this.startDateLocal = moment(this.startDate).startOf(this.rangeType)
+      this.endDateLocal = moment(this.startDate).endOf(this.rangeType)
+    } else {
+      this.startDateLocal = moment(this.startDate).startOf('day')
+      this.endDateLocal = moment(this.startDate).add(1, this.rangeType).subtract(1, 'day').endOf('day')
+    }
   }
 }
 </script>
