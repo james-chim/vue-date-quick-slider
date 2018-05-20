@@ -5,13 +5,13 @@
     </div>
     <div class="slider-date" :style="sliderDateStyle" :class="sliderDateClass">
       <div class="slider-date-previous" :style="sliderDateStyle">
-        {{startDateLocalPreviousFormatted}} - {{endDateLocalPreviousFormatted}}
+        {{startDateLocalPreviousFormatted}}<span v-show="rangeType!=='day'"> - {{endDateLocalPreviousFormatted}}</span>
       </div><!--
    --><div class="slider-date-current" :style="sliderDateStyle">
-        {{startDateLocalFormatted}} - {{endDateLocalFormatted}}
+        {{startDateLocalFormatted}}<span v-show="rangeType!=='day'">  - {{endDateLocalFormatted}}</span>
       </div><!--
    --><div class="slider-date-next" :style="sliderDateStyle">
-        {{startDateLocalNextFormatted}} - {{endDateLocalNextFormatted}}
+        {{startDateLocalNextFormatted}}<span v-show="rangeType!=='day'">  - {{endDateLocalNextFormatted}}</span>
       </div>
     </div>
     <div class="slider-control" @click="nextRange()">
@@ -21,8 +21,8 @@
 </template>
 
 <script>
-import backSvg from '../assets/ion-ios-back.svg'
-import forwardSvg from '../assets/ion-ios-forward.svg'
+import backSvg from '../../assets/ion-ios-back.svg'
+import forwardSvg from '../../assets/ion-ios-forward.svg'
 
 import moment from 'moment'
 

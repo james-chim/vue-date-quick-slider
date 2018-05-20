@@ -1,21 +1,20 @@
 <template>
-  <div id="app">
-    <day-slider :start-date.sync="start" :end-date.sync="end" range-type="week"></day-slider>
+  <div id="app" class="pb-5">
+    <demo></demo>
   </div>
 </template>
 
 <script>
-import DaySlider from './components/DateQuickSlider'
+
+import Demo from '@/components/docs/Demo'
 
 export default {
   name: 'app',
   components: {
-    DaySlider
+    Demo
   },
   data () {
     return {
-      start: undefined,
-      end: undefined
     }
   }
 }
