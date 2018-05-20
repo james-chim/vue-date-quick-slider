@@ -3,14 +3,14 @@
     <div class="slider-control" @click="previousRange()">
       <back-svg></back-svg>
     </div>
-    <div class="slider-date" :style="sliderDateStyle">
-      <div class="slider-date-previous">
+    <div class="slider-date" :style="sliderDateStyle" :class="sliderDateClass">
+      <div class="slider-date-previous" :style="sliderDateStyle">
         {{startDateLocalPreviousFormatted}} - {{endDateLocalPreviousFormatted}}
-      </div>
-      <div class="slider-date-current">
+      </div><!--
+   --><div class="slider-date-current" :style="sliderDateStyle">
         {{startDateLocalFormatted}} - {{endDateLocalFormatted}}
-      </div>
-      <div class="slider-date-next">
+      </div><!--
+   --><div class="slider-date-next" :style="sliderDateStyle">
         {{startDateLocalNextFormatted}} - {{endDateLocalNextFormatted}}
       </div>
     </div>
@@ -35,7 +35,8 @@ export default {
   data () {
     return {
       startDateLocal: undefined,
-      endDateLocal: undefined
+      endDateLocal: undefined,
+      slidingDirection: undefined
     }
   },
   props: {
@@ -105,6 +106,11 @@ export default {
         characters = characters * 2 + 3
       }
       return 'width:' + characters + 'ch;'
+    },
+    sliderDateClass () {
+      if (this.slidingDirection) {
+        return 'moving-' + this.slidingDirection
+      }
     }
   },
   watch: {
@@ -126,22 +132,30 @@ export default {
   },
   methods: {
     nextRange () {
-      var startDateLocalTemp = this.startDateLocal.add(1, this.rangeType)
-      var endDateLocalTemp = this.endDateLocal.add(1, this.rangeType)
-      // workaround for not able to trigger vue to detect changes.
-      this.startDateLocal = undefined
-      this.endDateLocal = undefined
-      this.startDateLocal = startDateLocalTemp
-      this.endDateLocal = endDateLocalTemp
+      this.slidingDirection = 'next'
+      setTimeout(() => {
+        var startDateLocalTemp = this.startDateLocal.add(1, this.rangeType)
+        var endDateLocalTemp = this.endDateLocal.add(1, this.rangeType)
+        // workaround for not able to trigger vue to detect changes.
+        this.startDateLocal = undefined
+        this.endDateLocal = undefined
+        this.startDateLocal = startDateLocalTemp
+        this.endDateLocal = endDateLocalTemp
+        this.slidingDirection = undefined
+      }, 200)
     },
     previousRange () {
-      var startDateLocalTemp = this.startDateLocal.subtract(1, this.rangeType)
-      var endDateLocalTemp = this.endDateLocal.subtract(1, this.rangeType)
-      // workaround for not able to trigger vue to detect changes.
-      this.startDateLocal = undefined
-      this.endDateLocal = undefined
-      this.startDateLocal = startDateLocalTemp
-      this.endDateLocal = endDateLocalTemp
+      this.slidingDirection = 'previous'
+      setTimeout(() => {
+        var startDateLocalTemp = this.startDateLocal.subtract(1, this.rangeType)
+        var endDateLocalTemp = this.endDateLocal.subtract(1, this.rangeType)
+        // workaround for not able to trigger vue to detect changes.
+        this.startDateLocal = undefined
+        this.endDateLocal = undefined
+        this.startDateLocal = startDateLocalTemp
+        this.endDateLocal = endDateLocalTemp
+        this.slidingDirection = undefined
+      }, 200)
     }
   }
 }
@@ -164,19 +178,25 @@ export default {
     }
     .slider-date {
       display: inline-block;
-      text-align: center;
-      align-self: center;
       user-select: none;
+      align-self: center;
       overflow: hidden;
+      white-space: nowrap;
       > div {
         user-select: none;
         display: inline-block;
-        &.slider-date-previous {
-          transform: translateX(-100%);
-        }
-        &.slider-date-next {
-          transform: translateX(100%);
-        }
+        text-align: center;
+        transform: translateX(-100%);
+      }
+      &.moving-next > div,
+      &.moving-previous > div {
+        transition: transform 0.2s ease;
+      }
+      &.moving-next > div{
+        transform: translateX(-200%);
+      }
+      &.moving-previous > div{
+        transform: translateX(0);
       }
     }
   }
