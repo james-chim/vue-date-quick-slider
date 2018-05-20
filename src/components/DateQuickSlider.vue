@@ -4,7 +4,15 @@
       <back-svg></back-svg>
     </div>
     <div class="slider-date" :style="sliderDateStyle">
-      {{startDateLocalFormatted}} - {{endDateLocalFormatted}}
+      <div class="slider-date-previous">
+        {{startDateLocalPreviousFormatted}} - {{endDateLocalPreviousFormatted}}
+      </div>
+      <div class="slider-date-current">
+        {{startDateLocalFormatted}} - {{endDateLocalFormatted}}
+      </div>
+      <div class="slider-date-next">
+        {{startDateLocalNextFormatted}} - {{endDateLocalNextFormatted}}
+      </div>
     </div>
     <div class="slider-control" @click="nextRange()">
       <forward-svg></forward-svg>
@@ -79,14 +87,24 @@ export default {
     endDateLocalFormatted () {
       return this.endDateLocal.format(this.displayFormat)
     },
+    startDateLocalNextFormatted () {
+      return this.startDateLocal.clone().add(1, this.rangeType).format(this.displayFormat)
+    },
+    endDateLocalNextFormatted () {
+      return this.endDateLocal.clone().add(1, this.rangeType).format(this.displayFormat)
+    },
+    startDateLocalPreviousFormatted () {
+      return this.startDateLocal.clone().subtract(1, this.rangeType).format(this.displayFormat)
+    },
+    endDateLocalPreviousFormatted () {
+      return this.endDateLocal.clone().subtract(1, this.rangeType).format(this.displayFormat)
+    },
     sliderDateStyle () {
       var characters = this.displayFormat.length + 1
       if (this.rangeType !== 'day') {
         characters = characters * 2 + 3
       }
-      if (this.displayFormat) {
-        return 'min-width:' + characters + 'ch;'
-      }
+      return 'width:' + characters + 'ch;'
     }
   },
   watch: {
@@ -135,7 +153,7 @@ export default {
     display: flex;
     .slider-control {
       display: inline-flex;
-      svg {
+      > svg {
         width: 30px;
         transition: all 300ms ease;
         align-self: center;
@@ -149,6 +167,17 @@ export default {
       text-align: center;
       align-self: center;
       user-select: none;
+      overflow: hidden;
+      > div {
+        user-select: none;
+        display: inline-block;
+        &.slider-date-previous {
+          transform: translateX(-100%);
+        }
+        &.slider-date-next {
+          transform: translateX(100%);
+        }
+      }
     }
   }
 </style>
