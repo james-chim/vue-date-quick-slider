@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import DaySlider from './components/DaySlider'
+import DaySlider from './components/DateQuickSlider'
 
 export default {
   name: 'app',
@@ -15,7 +15,7 @@ export default {
   data () {
     return {
       start: undefined,
-      end: new Date(500000)
+      end: undefined
     }
   }
 }

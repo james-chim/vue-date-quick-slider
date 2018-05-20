@@ -1,9 +1,11 @@
 <template>
-  <div>
+  <div class>
     <div @click="previousRange()">
       <back-svg class="slider-control"></back-svg>
     </div>
-    <div class="slider-date">{{startDate}} - {{endDate}}</div>
+    <div class="slider-date">
+      {{startDateLocal.format(displayFormat)}} - {{endDateLocalFormatted}}
+    </div>
     <div @click="nextRange()">
       <forward-svg class="slider-control"></forward-svg>
     </div>
@@ -53,29 +55,37 @@ export default {
         return moment(value)._isValid
       }
     },
+    // TODO: To be implemented
     startDateLimit: {
       validator: (value) => {
         return moment(value)._isValid
       }
     },
+    // TODO: To be implemented
     endDateLimit: {
       validator: (value) => {
         return moment(value)._isValid
       }
+    },
+    displayFormat: {
+      type: String,
+      default: () => 'D MMM'
+    }
+  },
+  computed: {
+    startDateLocalFormatted () {
+      return this.startDateLocal.format(this.displayFormat)
+    },
+    endDateLocalFormatted () {
+      return this.endDateLocal.format(this.displayFormat)
     }
   },
   watch: {
-    startDateLocal: {
-      handler (newValue) {
-        this.$emit('update:startDate', newValue.toDate())
-      },
-      deep: true
+    startDateLocal (newValue) {
+      this.$emit('update:startDate', newValue.toDate())
     },
-    endDateLocal: {
-      handler (newValue) {
-        this.$emit('update:endDate', newValue.toDate())
-      },
-      deep: true
+    endDateLocal (newValue) {
+      this.$emit('update:endDate', newValue.toDate())
     }
   },
   created () {
@@ -89,16 +99,22 @@ export default {
   },
   methods: {
     nextRange () {
-      this.startDateLocal.add(1, this.rangeType)
-      this.endDateLocal.add(1, this.rangeType)
-      this.$set(this.startDateLocal, '__force_update', !this.startDateLocal.__force_update)
-      this.$set(this.endDateLocal, '__force_update', !this.endDateLocal.__force_update)
+      var startDateLocalTemp = this.startDateLocal.add(1, this.rangeType)
+      var endDateLocalTemp = this.endDateLocal.add(1, this.rangeType)
+      // workaround for not able to trigger vue to detect changes.
+      this.startDateLocal = undefined
+      this.endDateLocal = undefined
+      this.startDateLocal = startDateLocalTemp
+      this.endDateLocal = endDateLocalTemp
     },
     previousRange () {
-      this.startDateLocal.subtract(1, this.rangeType)
-      this.endDateLocal.subtract(1, this.rangeType)
-      this.$set(this.startDateLocal, '__force_update', !this.startDateLocal.__force_update)
-      this.$set(this.endDateLocal, '__force_update', !this.endDateLocal.__force_update)
+      var startDateLocalTemp = this.startDateLocal.subtract(1, this.rangeType)
+      var endDateLocalTemp = this.endDateLocal.subtract(1, this.rangeType)
+      // workaround for not able to trigger vue to detect changes.
+      this.startDateLocal = undefined
+      this.endDateLocal = undefined
+      this.startDateLocal = startDateLocalTemp
+      this.endDateLocal = endDateLocalTemp
     }
   }
 }
