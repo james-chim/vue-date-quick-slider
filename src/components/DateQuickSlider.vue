@@ -4,7 +4,7 @@
       <back-svg class="slider-control"></back-svg>
     </div>
     <div class="slider-date">
-      {{startDateLocal.format(displayFormat)}} - {{endDateLocalFormatted}}
+      {{startDateLocalFormatted}} - {{endDateLocalFormatted}}
     </div>
     <div @click="nextRange()">
       <forward-svg class="slider-control"></forward-svg>
