@@ -1,13 +1,13 @@
 <template>
-  <div class>
-    <div @click="previousRange()">
-      <back-svg class="slider-control"></back-svg>
+  <div class="date-quick-slider" :class="'slider-type-' + rangeType">
+    <div class="slider-control" @click="previousRange()">
+      <back-svg></back-svg>
     </div>
-    <div class="slider-date">
+    <div class="slider-date" :style="sliderDateStyle">
       {{startDateLocalFormatted}} - {{endDateLocalFormatted}}
     </div>
-    <div @click="nextRange()">
-      <forward-svg class="slider-control"></forward-svg>
+    <div class="slider-control" @click="nextRange()">
+      <forward-svg></forward-svg>
     </div>
   </div>
 </template>
@@ -78,6 +78,15 @@ export default {
     },
     endDateLocalFormatted () {
       return this.endDateLocal.format(this.displayFormat)
+    },
+    sliderDateStyle () {
+      var characters = this.displayFormat.length + 1
+      if (this.rangeType !== 'day') {
+        characters = characters * 2 + 3
+      }
+      if (this.displayFormat) {
+        return 'min-width:' + characters + 'ch;'
+      }
     }
   },
   watch: {
@@ -122,14 +131,23 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style lang="scss" scoped>
-  .slider-date {
-    display: inline-block;
-  }
-  .slider-control {
-    width: 50px;
-    transition: all 300ms ease;
-    &:hover {
-      fill: red;
+  .date-quick-slider {
+    display: flex;
+    .slider-control {
+      display: inline-flex;
+      svg {
+        width: 30px;
+        transition: all 300ms ease;
+        align-self: center;
+        &:hover {
+          fill: red;
+        }
+      }
+    }
+    .slider-date {
+      display: inline-block;
+      text-align: center;
+      align-self: center;
     }
   }
 </style>
