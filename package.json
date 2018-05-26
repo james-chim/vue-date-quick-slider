@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "description": "Vue date slider library that is built for https://timehunter.io . It aims to provide an easy and user friendly date filter that can navigate back and forth by a simple click of a button. It is responsive and built with moment.",
   "author": "James Chim <jc.app.production@gmail.com>",
+  "keywords": ["date slider", "date time slider", "date filter", "datetime", "Vue", "front end"],
   "main": "dist/lib/date-quick-slider.min.js",
   "private": false,
   "license": "MIT",
