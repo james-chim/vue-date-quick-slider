@@ -11,6 +11,7 @@
     "Vue",
     "front end"
   ],
+  "homepage": "https://james-chim.github.io/vue-date-quick-slider/",
   "main": "dist/lib/date-quick-slider.min.js",
   "private": false,
   "license": "MIT",
