@@ -1,6 +1,6 @@
 {
   "name": "vue-date-quick-slider",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "Vue date slider library that is built for https://timehunter.io . It aims to provide an easy and user friendly date filter that can navigate back and forth by a simple click of a button. It is responsive and built with moment.",
   "author": "James Chim <jc.app.production@gmail.com>",
   "main": "dist/lib/date-quick-slider.min.js",
@@ -20,9 +20,8 @@
     "lint": "eslint --ext .js,.vue src test/unit/specs test/e2e/specs"
   },
   "dependencies": {
-    "bootstrap-vue": "^2.0.0-rc.11",
-    "moment": "^2.22.1",
-    "vue": "^2.3.3"
+    "moment": "^2.9.0",
+    "vue": "^2.0.0"
   },
   "devDependencies": {
     "autoprefixer": "^7.1.2",
@@ -34,6 +33,7 @@
     "babel-preset-env": "^1.3.2",
     "babel-preset-stage-2": "^6.22.0",
     "babel-register": "^6.22.0",
+    "bootstrap-vue": "^2.0.0-rc.11",
     "chai": "^3.5.0",
     "chalk": "^2.0.1",
     "chromedriver": "^2.27.2",
